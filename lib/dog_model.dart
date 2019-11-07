@@ -13,7 +13,7 @@ class Dog {
   Future getImageUrl() async {
     // Null check so our app isn't doing extra work.
     // If there's already an image, we don't need to get one.
-    if (imageUrl != null) {
+    if (this.imageUrl != null) {
       return;
     }
 
@@ -27,7 +27,7 @@ class Dog {
       var responseBody = await response.transform(utf8.decoder).join();
       // The dog.ceo API returns a JSON object with a property
       // called 'message', which actually is the URL.
-      imageUrl = json.decode(responseBody)['message'];
+      this.imageUrl = json.decode(responseBody)['message'];
     } catch (exception) {
       print(exception);
     }

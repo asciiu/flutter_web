@@ -1,7 +1,7 @@
 // main.dart
 import 'package:flutter/material.dart';
 import 'dog_model.dart';
-import 'dog_card.dart';
+import 'dog_list.dart';
 
 void main() => runApp(MyApp());
 
@@ -57,7 +57,7 @@ class _MyHomePageState extends State<MyHomePage> {
       /// children. It doesn't take up any space itself, so it
       /// can be used as a placeholder in your code.
       body: Container(
-         child: DogCard(initialDoggos[1])
+         child: DogList(initialDoggos)
       ),
     );
   }
