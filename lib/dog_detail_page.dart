@@ -18,6 +18,29 @@ class _DogDetailPageState extends State<DogDetailPage> {
   final double dogAvatarSize = 150.0;
   double _sliderValue = 10.0;
 
+  // Just like a route, this needs to be async, because it can return
+  // information when the user interacts.
+  Future<Null> _ratingErrorDialog() async {
+    // showDialog is a built-in Flutter method.
+    return showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text('Error!'),
+          content: Text("They're good dogs, Brant."),
+          // This action uses the Navigator to dismiss the dialog.
+          // This is where you could return information if you wanted to.
+          actions: [
+            FlatButton(
+              child: Text('Try Again'),
+              onPressed: () => Navigator.of(context).pop(),
+            )
+          ],
+        );
+      },
+    );
+  }
+
   Widget get addYourRating {
     return Column(
       children: <Widget>[
@@ -61,10 +84,7 @@ class _DogDetailPageState extends State<DogDetailPage> {
                   min: 0.0,
                   max: 15.0,
                   onChanged: (newRating) {
-                    setState(() {
-                      _sliderValue = newRating; 
-                      widget.dog.rating = _sliderValue.toInt();
-                    });
+                    updateRating(newRating);
                   },
                   value: _sliderValue,
                 ),
@@ -85,18 +105,25 @@ class _DogDetailPageState extends State<DogDetailPage> {
     );
   }
 
-  void updateRating() {
-    setState(() => widget.dog.rating = _sliderValue.toInt());
+  void updateRating(newRating) {
+    if (newRating < 7) {
+      _ratingErrorDialog();
+    } else {
+      setState(() {
+        _sliderValue = newRating;
+        widget.dog.rating = _sliderValue.toInt();
+      });
+    }
   }
 
   // A simple Raised Button that as of now doesn't do anything yet.
-  Widget get submitRatingButton {
-    return RaisedButton(
-      onPressed: () => updateRating(),
-      child: Text('Submit'),
-      color: Colors.indigoAccent,
-    );
-  }
+  //Widget get submitRatingButton {
+  //  return RaisedButton(
+  //    onPressed: () => updateRating(),
+  //    child: Text('Submit'),
+  //    color: Colors.indigoAccent,
+  //  );
+  //}
 
   Widget get dogImage {
     // Containers define the size of its children.
