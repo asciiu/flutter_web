@@ -61,7 +61,10 @@ class _DogDetailPageState extends State<DogDetailPage> {
                   min: 0.0,
                   max: 15.0,
                   onChanged: (newRating) {
-                    setState(() => _sliderValue = newRating);
+                    setState(() {
+                      _sliderValue = newRating; 
+                      widget.dog.rating = _sliderValue.toInt();
+                    });
                   },
                   value: _sliderValue,
                 ),
@@ -77,7 +80,7 @@ class _DogDetailPageState extends State<DogDetailPage> {
             ],
           ),
         ),
-        submitRatingButton,
+        //submitRatingButton,
       ],
     );
   }
