@@ -53,6 +53,8 @@ class _MyHomePageState extends State<MyHomePage> {
     if (newDog != null) {
       // Add a newDog to our mock dog array.
       initialDoggos.add(newDog);
+    } else {
+      print("user abandon the new dog form");
     }
   }
 

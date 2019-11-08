@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'dog_model.dart';
 
 class AddDogFormPage extends StatefulWidget {
   @override
@@ -6,6 +7,26 @@ class AddDogFormPage extends StatefulWidget {
 }
 
 class _AddDogFormPageState extends State<AddDogFormPage> {
+  TextEditingController nameController = TextEditingController();
+  TextEditingController locationController = TextEditingController();
+  TextEditingController descriptionController = TextEditingController();
+
+  void submitPup(BuildContext context) {
+    // First make sure there is some information in the form.
+    // A dog needs a name, but may be location independent,
+    // so we'll only abandon the save if there's no name.
+    if (nameController.text.isEmpty) {
+      print('Dogs need names!');
+    } else {
+      // Create a new dog with the information from the form.
+      var newDog = Dog(nameController.text, locationController.text,
+          descriptionController.text);
+      // Pop the page off the route stack and pass the new
+      // dog back to wherever this page was created.
+      Navigator.of(context).pop(newDog);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     // new page needs scaffolding!
@@ -29,20 +50,26 @@ class _AddDogFormPageState extends State<AddDogFormPage> {
                 // It comes built in with a ton of great UI and
                 // functionality, such as the labelText field you see below.
                 child: TextField(
+                    controller: nameController,
+                    onChanged: (v) => nameController.text = v,
                     decoration: InputDecoration(
-                  labelText: 'Name the Pup',
-                )),
+                      labelText: 'Name the Pup',
+                    )),
               ),
               Padding(
                 padding: const EdgeInsets.only(bottom: 8.0),
                 child: TextField(
+                    controller: locationController,
+                    onChanged: (v) => locationController.text = v,
                     decoration: InputDecoration(
-                  labelText: "Pup's location",
-                )),
+                      labelText: "Pup's location",
+                    )),
               ),
               Padding(
                 padding: const EdgeInsets.only(bottom: 8.0),
                 child: TextField(
+                  controller: descriptionController,
+                  onChanged: (v) => descriptionController.text = v,
                   decoration: InputDecoration(
                     labelText: 'All about the pup',
                   ),
@@ -62,7 +89,7 @@ class _AddDogFormPageState extends State<AddDogFormPage> {
                     return RaisedButton(
                       // If onPressed is null, the button is disabled
                       // this is my goto temporary callback.
-                      onPressed: () => print('PRESSED'),
+                      onPressed: () => submitPup(context),
                       color: Colors.indigoAccent,
                       child: Text('Submit Pup'),
                     );
