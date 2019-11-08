@@ -87,17 +87,21 @@ class _DogCardState extends State<DogCard> {
   }
 
   Widget get dogImage {
-    var dogAvatar = Container(
-      width: 100.0,
-      height: 100.0,
-      decoration: BoxDecoration(
-        shape: BoxShape.circle,
-        image: DecorationImage(
-          fit: BoxFit.cover,
-          image: NetworkImage(renderUrl ?? ''),
-        ),
-      ),
-    );
+    var dogAvatar = Hero(
+        // Flutter looks for two widgets on two different pages,
+        // and if they have the same tag it animates between them.
+        tag: dog,
+        child: Container(
+          width: 100.0,
+          height: 100.0,
+          decoration: BoxDecoration(
+            shape: BoxShape.circle,
+            image: DecorationImage(
+              fit: BoxFit.cover,
+              image: NetworkImage(renderUrl ?? ''),
+            ),
+          ),
+        ));
 
     // Placeholder is a static container the same size as the dog image.
     var placeholder = Container(
